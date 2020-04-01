@@ -46,6 +46,7 @@ var FileProgress = /** @class */ (function () {
             if (_this._isUploading()) {
                 return;
             }
+            _this._fileInput.value = "";
             _this._el.classList.remove('file-progress--has-file');
             _this._label.innerHTML = _this._options.label();
             if (!_this._isAjax()) {

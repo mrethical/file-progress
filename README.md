@@ -4,6 +4,7 @@ An extended HTML file input that looks like a progress bar.
 
 ## Features
 
+- Lightweight, no dependencies.
 - Better HTML file input design.
 - Set file input to upload via ajax and show progress.
 - Use your own implementation for ajax file upload.
@@ -32,10 +33,38 @@ $ npm add https://github.com/mrethical/file-progress
 ...
 ```
 ```javascript
-new FileProgress('file-progress-input');
+const fileProgress = new FileProgress('file-progress-input');
 ```
 
-## Soon
+## Options
 
-- more detailed documentation
-- host on npmjs
+| option   | type                               | description                                                     |
+| :------- | :--------------------------------- | :-------------------------------------------------------------- |
+| url      | string                             | if set, will send selected file to the url via ajax             |
+| upload   | function(File, FileProgress): void | function for implementing custom ajax call rather than built in |
+| label    | function(File?): void              | function for setting custom label                               |
+| onRemove | function(): void                   | callback when file was cleared/removed                          |
+
+To set options, provide them at class initialization.
+```javascript
+const fileProgress = new FileProgress('file-progress-input', {
+    url: 'https://example.com/upload'
+});
+```
+## Methods
+
+| name     | parameters          | description                                                        |
+| :------- | :------------------ | :----------------------------------------------------------------- |
+| progress | percentage (number) | set file progress bar (useful when using own ajax upload function) |
+| prefill  | prefill (label)     | update the input label without updating the file                   |
+| open     |                     | open file modal                                                    |
+| set      | fileList (FileList) | programatically set files of input                                 |
+
+## Screenshots
+
+![Imgur](https://i.imgur.com/1MdowPf.jpg)
+
+![Imgur](https://i.imgur.com/tL7jmxv.jpg)
+
+## License
+This library is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).

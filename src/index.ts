@@ -77,6 +77,7 @@ export default class FileProgress
       if (this._isUploading()) {
         return;
       }
+      this._fileInput.value = "";
       this._el.classList.remove('file-progress--has-file');
       this._label.innerHTML = this._options.label();
       if (!this._isAjax()) {
