@@ -1,6 +1,6 @@
 {
   "name": "file-progress",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "An extended HTML file input that looks like a progress bar",
   "author": "Jefferson Magboo",
   "license": "MIT",
