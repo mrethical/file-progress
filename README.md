@@ -62,7 +62,7 @@ const fileProgress = new FileProgress('file-progress-input', {
 
 ## Screenshots
 
-![Imgur](https://i.imgur.com/1MdowPf.jpg)
+![Imgur](https://i.imgur.com/1MdowPf.jpg?cache_reload_count=1)
 
 ![Imgur](https://i.imgur.com/tL7jmxv.jpg)
 
