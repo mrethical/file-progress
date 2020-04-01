@@ -14,13 +14,13 @@ An extended HTML file input that looks like a progress bar.
 Using npm:
 
 ```bash
-$ npm install https://github.com/mrethical/file-progress
+$ npm install file-progress
 ```
 
 Using yarn:
 
 ```bash
-$ npm add https://github.com/mrethical/file-progress
+$ yarn add file-progress
 ```
 
 ## Usage
