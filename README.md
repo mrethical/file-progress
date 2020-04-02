@@ -6,8 +6,8 @@ An extended HTML file input that looks like a progress bar.
 
 - Lightweight, no dependencies.
 - Better HTML file input design.
-- Set file input to upload via ajax and show progress.
-- Use your own implementation for ajax file upload.
+- Has option to upload file via ajax and show progress.
+  - Use your own implementation for ajax file upload.
 
 ## Installation
 
