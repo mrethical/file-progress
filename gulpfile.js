@@ -4,6 +4,8 @@ const del = require('del');
 const browserify = require('browserify');
 const source = require('vinyl-source-stream');
 const tsify = require('tsify');
+const concat = require('gulp-concat');
+const uglify = require('gulp-uglify');
 const ts = require('gulp-typescript');
 
 
@@ -26,6 +28,12 @@ const build = () => {
     .pipe(source('file-progress.js'))
     .pipe(gulp.dest('dist'));
 };
+const buildUgly = () => {
+  return gulp.src('./dist/file-progress.js')
+    .pipe(concat('file-progress.min.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest('dist'));
+};
 const buildES6 = () => {
   const tsProject = ts.createProject('tsconfig.json');
   return tsProject.src()
@@ -38,6 +46,6 @@ const watcher = () => {
 
 gulp.task('watch', series(build, watcher));
 gulp.task('build', build);
-gulp.task('build-all', series(build, buildES6));
+gulp.task('build-all', series(build, buildUgly, buildES6));
 
 exports.default = build;
