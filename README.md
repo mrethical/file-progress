@@ -23,6 +23,11 @@ Using yarn:
 $ yarn add file-progress
 ```
 
+Cloning the repo:
+```bash
+$ git clone https://github.com/mrethical/file-progress
+```
+
 ## Usage
 ```html
 ...
@@ -33,6 +38,12 @@ $ yarn add file-progress
 ...
 ```
 ```javascript
+const fileProgress = new FileProgress('file-progress-input');
+```
+If you installed the library via package manager, you can use the library by importing it.
+```javascript
+import FileProgress from "file-progress";
+
 const fileProgress = new FileProgress('file-progress-input');
 ```
 
