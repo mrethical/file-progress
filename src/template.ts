@@ -54,8 +54,8 @@ const template = `
 
 export default function createDOM() {
   if (!isStylePublished) {
-    let headEl = document.head || document.getElementsByTagName('head')[0],
-        styleEl = document.createElement('style');
+    const headEl = document.head || document.getElementsByTagName('head')[0];
+    const styleEl = document.createElement('style');
     headEl.appendChild(styleEl);
     styleEl.appendChild(document.createTextNode(style));
     isStylePublished = true;
@@ -64,4 +64,4 @@ export default function createDOM() {
   el.className = templateClass;
   el.innerHTML = template;
   return el;
-};
+}

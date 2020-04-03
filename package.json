@@ -7,7 +7,8 @@
   "main": "./dist/es6/index.js",
   "scripts": {
     "build": "npm run clean && gulp build-all",
-    "clean": "gulp clean"
+    "clean": "gulp clean",
+    "lint": "tslint --project tsconfig.json"
   },
   "dependencies": {},
   "devDependencies": {
@@ -21,6 +22,7 @@
     "gulp-typescript": "^6.0.0-alpha.1",
     "gulp-uglify": "^3.0.2",
     "tsify": "^4.0.1",
+    "tslint": "^6.1.1",
     "typescript": "^3.8.3",
     "vinyl-source-stream": "^2.0.0"
   }

@@ -6,33 +6,22 @@ Object.defineProperty(exports, "__esModule", {
 });
 var Ajax = /** @class */function () {
     function Ajax(url, data, onProgress, onSuccess) {
-        if (data === void 0) {
-            data = {};
-        }
-        if (onProgress === void 0) {
-            onProgress = function onProgress(percentage) {};
-        }
-        if (onSuccess === void 0) {
-            onSuccess = function onSuccess(response, xhr) {};
-        }
-        try {
-            // @ts-ignore
-            var xhr_1 = new (XMLHttpRequest || ActiveXObject)('MSXML2.XMLHTTP.3.0');
-            xhr_1.open(data ? 'POST' : 'GET', url, 1);
-            xhr_1.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-            xhr_1.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xhr_1.onprogress = function (evt) {
-                if (evt.lengthComputable) {
-                    onProgress(evt.loaded / evt.total * 100);
-                }
-            };
-            xhr_1.onreadystatechange = function () {
-                xhr_1.readyState > 3 && onSuccess && onSuccess(xhr_1.responseText, xhr_1);
-            };
-            xhr_1.send(data);
-        } catch (e) {
-            window.console && console.log(e);
-        }
+        // @ts-ignore
+        var xhr = new (XMLHttpRequest || ActiveXObject)('MSXML2.XMLHTTP.3.0');
+        xhr.open(data ? 'POST' : 'GET', url, 1);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onprogress = function (evt) {
+            if (evt.lengthComputable && onProgress) {
+                onProgress(evt.loaded / evt.total * 100);
+            }
+        };
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState > 3 && onSuccess) {
+                onSuccess(xhr.responseText, xhr);
+            }
+        };
+        xhr.send(data);
     }
     return Ajax;
 }();
@@ -80,7 +69,6 @@ var FileProgress = /** @class */function () {
         }
         this._chooseFileLabel = 'Choose File ...';
         this._progressCount = 0;
-        var $this = this;
         this._fileInput = typeof el === 'string' ? document.getElementById(el) : el;
         this._options = {
             url: options.url || '',
@@ -91,7 +79,7 @@ var FileProgress = /** @class */function () {
                 }
                 return f.name;
             },
-            onRemove: options.onRemove || function () {}
+            onRemove: options.onRemove || null
         };
         this._el = (0, _template2.default)();
         this._fileInput.parentNode.insertBefore(this._el, this._fileInput.nextSibling);
@@ -101,13 +89,13 @@ var FileProgress = /** @class */function () {
         this._label.innerHTML = this._options.label();
         this._clearButton = this._el.querySelector('button');
         this._label.addEventListener('click', function (e) {
-            if ($this._isUploading() || e.target !== $this._label) {
+            if (_this._isUploading() || e.target !== _this._label) {
                 return;
             }
-            $this._fileInput.click();
+            _this._fileInput.click();
         });
         this._fileInput.addEventListener('change', function (e) {
-            $this._setFiles(e.target.files);
+            _this._setFiles(e.target.files);
         });
         this._clearButton.addEventListener('click', function () {
             if (_this._isUploading()) {
@@ -119,7 +107,9 @@ var FileProgress = /** @class */function () {
             if (!_this._isAjax()) {
                 _this._bar.style.right = '';
             }
-            _this._options.onRemove();
+            if (_this._options.onRemove) {
+                _this._options.onRemove();
+            }
         });
     }
     FileProgress.prototype._isAjax = function () {
@@ -192,8 +182,8 @@ var templateClass = 'file-progress';
 var template = "\n  <div class=\"file-progress__bar\"></div>\n  <span class=\"file-progress__name\"></span>\n  <button type=\"button\" class=\"file-progress__button\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\"><path d=\"M23 20.168l-8.185-8.187 8.185-8.174-2.832-2.807-8.182 8.179-8.176-8.179-2.81 2.81 8.186 8.196-8.186 8.184 2.81 2.81 8.203-8.192 8.18 8.192z\"/></svg></button>\n";
 function createDOM() {
     if (!isStylePublished) {
-        var headEl = document.head || document.getElementsByTagName('head')[0],
-            styleEl = document.createElement('style');
+        var headEl = document.head || document.getElementsByTagName('head')[0];
+        var styleEl = document.createElement('style');
         headEl.appendChild(styleEl);
         styleEl.appendChild(document.createTextNode(style));
         isStylePublished = true;
@@ -203,6 +193,5 @@ function createDOM() {
     el.innerHTML = template;
     return el;
 }
-;
 
 },{}]},{},[2]);

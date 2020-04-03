@@ -10,9 +10,9 @@ export default class FileProgress
 
   private _options: {
     url: string,
-    upload: {(File, FileProgress): void}|null,
-    label: {(File?): string},
-    onRemove: {(): void},
+    upload: ((File, FileProgress) => void)|null,
+    label: (File?) => string,
+    onRemove: (() => void)|null,
   };
 
   private _bar: HTMLElement;
@@ -27,9 +27,9 @@ export default class FileProgress
     el: string | HTMLElement | HTMLInputElement,
     options: {
       url: string,
-      upload: {(File, FileProgress): void}|null,
-      label: {(File?): string}|null,
-      onRemove: {(): void}|null,
+      upload: ((File, FileProgress) => void)|null,
+      label: ((File?) => string)|null,
+      onRemove: (() => void)|null,
     } = {
       url: '',
       upload: null,
@@ -37,11 +37,9 @@ export default class FileProgress
       onRemove: null,
     }
   ) {
-    let $this = this;
-
     this._fileInput = typeof el === 'string'
-      ? <HTMLInputElement>document.getElementById(el)!
-      : <HTMLInputElement>el;
+      ? document.getElementById(el) as HTMLInputElement
+      : el as HTMLInputElement;
     this._options = {
       url: options.url || '',
       upload: options.upload || null,
@@ -51,7 +49,7 @@ export default class FileProgress
         }
         return f.name;
       }),
-      onRemove: options.onRemove || (() => {}),
+      onRemove: options.onRemove || null,
     };
 
     this._el = createDOM();
@@ -62,15 +60,15 @@ export default class FileProgress
     this._label.innerHTML = this._options.label();
     this._clearButton = this._el.querySelector('button')!;
 
-    this._label.addEventListener('click', function(e) {
-      if ($this._isUploading() || e.target !== $this._label) {
+    this._label.addEventListener('click', (e) => {
+      if (this._isUploading() || e.target !== this._label) {
         return;
       }
-      $this._fileInput.click();
+      this._fileInput.click();
     });
 
-    this._fileInput.addEventListener('change', function(e) {
-      $this._setFiles((<HTMLInputElement>e.target).files!);
+    this._fileInput.addEventListener('change', (e) => {
+      this._setFiles((e.target as HTMLInputElement).files!);
     });
 
     this._clearButton.addEventListener('click', () => {
@@ -83,7 +81,9 @@ export default class FileProgress
       if (!this._isAjax()) {
         this._bar.style.right = '';
       }
-      this._options.onRemove()
+      if (this._options.onRemove) {
+        this._options.onRemove();
+      }
     });
   }
 
@@ -100,24 +100,24 @@ export default class FileProgress
     if (!files || files!.length === 0) {
       this._clearButton.click();
     } else {
-      let file = files[0];
+      const file = files[0];
       this._label.innerHTML = this._options.label(file);
       if (this._options.upload) {
         this._options.upload(file, this);
       }
       else if (this._isAjax()) {
-        let formData = new FormData();
+        const formData = new FormData();
         formData.append(this._el.getAttribute('name')!, files[0]);
         new Ajax(
           this._options.url,
           formData,
           (percentage) => {
-            this.progress(percentage)
+            this.progress(percentage);
           },
           () => {
             this.progress(100);
           }
-        )
+        );
       }
       else {
         this._bar.style.right = '0';

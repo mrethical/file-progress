@@ -11,7 +11,6 @@ var FileProgress = /** @class */ (function () {
         }; }
         this._chooseFileLabel = 'Choose File ...';
         this._progressCount = 0;
-        var $this = this;
         this._fileInput = typeof el === 'string'
             ? document.getElementById(el)
             : el;
@@ -24,7 +23,7 @@ var FileProgress = /** @class */ (function () {
                 }
                 return f.name;
             }),
-            onRemove: options.onRemove || (function () { }),
+            onRemove: options.onRemove || null,
         };
         this._el = createDOM();
         this._fileInput.parentNode.insertBefore(this._el, this._fileInput.nextSibling);
@@ -34,13 +33,13 @@ var FileProgress = /** @class */ (function () {
         this._label.innerHTML = this._options.label();
         this._clearButton = this._el.querySelector('button');
         this._label.addEventListener('click', function (e) {
-            if ($this._isUploading() || e.target !== $this._label) {
+            if (_this._isUploading() || e.target !== _this._label) {
                 return;
             }
-            $this._fileInput.click();
+            _this._fileInput.click();
         });
         this._fileInput.addEventListener('change', function (e) {
-            $this._setFiles(e.target.files);
+            _this._setFiles(e.target.files);
         });
         this._clearButton.addEventListener('click', function () {
             if (_this._isUploading()) {
@@ -52,7 +51,9 @@ var FileProgress = /** @class */ (function () {
             if (!_this._isAjax()) {
                 _this._bar.style.right = '';
             }
-            _this._options.onRemove();
+            if (_this._options.onRemove) {
+                _this._options.onRemove();
+            }
         });
     }
     FileProgress.prototype._isAjax = function () {
