@@ -70,6 +70,7 @@ const fileProgress = new FileProgress('file-progress-input', {
 | prefill  | prefill (label)     | update the input label without updating the file                   |
 | open     |                     | open file modal                                                    |
 | set      | fileList (FileList) | programatically set files of input                                 |
+| clear    |                     | remove files                                 |
 
 ## Screenshots
 

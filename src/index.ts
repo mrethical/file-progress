@@ -152,4 +152,8 @@ export default class FileProgress
     this._fileInput.files = fileList;
     this._setFiles(fileList);
   }
+
+  clear() {
+    this._clearButton.click();
+  }
 }

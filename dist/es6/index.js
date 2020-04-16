@@ -113,6 +113,9 @@ var FileProgress = /** @class */ (function () {
         this._fileInput.files = fileList;
         this._setFiles(fileList);
     };
+    FileProgress.prototype.clear = function () {
+        this._clearButton.click();
+    };
     return FileProgress;
 }());
 export default FileProgress;
